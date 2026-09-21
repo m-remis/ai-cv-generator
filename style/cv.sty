@@ -1,4 +1,4 @@
-%% cv.sty — all styling for the CV.
+%% cv.sty - all styling for the CV.
 %%
 %% THIS FILE IS YOURS TO EDIT. It is never regenerated, so your styling
 %% survives every rebuild of cv.tex. Content lives in me.md; cv.tex is
@@ -14,7 +14,7 @@
 % Defaults to english. Non-English languages need their babel patterns
 % installed (Fedora: texlive-lang-czechslovak, texlive-lang-european).
 % Options accumulate, so a language can be combined with babel switches, e.g.
-% \usepackage[czech,shorthands=off]{cv} — Czech babel makes " active, which
+% \usepackage[czech,shorthands=off]{cv} - Czech babel makes " active, which
 % bites if a CV ever contains a literal quote character.
 \newcommand{\cv@lang}{}
 \DeclareOption*{%
@@ -61,12 +61,12 @@
 \definecolor{cvaccent}{HTML}{1F4E79}   % headings, links
 \definecolor{cvmuted}{HTML}{5C6670}    % dates, locations, contact line
 \definecolor{cvrule}{HTML}{C3CEDA}     % hairline under section headings
-\newcommand{\cvlabelwidth}{3.5cm}      % width of the Skills label column
+\newcommand{\cvlabelwidth}{4.3cm}      % width of the Skills label column
 \newcommand{\cvnamesize}{22}           % name size in pt
 \newcommand{\cvphotofile}{photo.jpg}   % in assets/; the photo is optional
 \newcommand{\cvphotosize}{2.8cm}       % width of the photo
 \newcommand{\cvcontactgap}{0.9em}      % gap between contact label and value
-\RequirePackage[a4paper,margin=1.6cm,top=1.35cm,bottom=1.5cm,footskip=0.8cm]{geometry}
+\RequirePackage[a4paper,margin=1.5cm,top=1.2cm,bottom=1.3cm,footskip=0.7cm]{geometry}
 % =========================================================
 
 \hypersetup{colorlinks=true, urlcolor=cvaccent, linkcolor=cvaccent, pdfborder={0 0 0}}
@@ -84,20 +84,26 @@
 }
 \pagestyle{cvpages}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{3.5pt}
-\linespread{1.04}\selectfont   % a little air; CV text is read in a hurry
+\setlength{\parskip}{2.5pt}
+\linespread{1.0}\selectfont   % a little air; CV text is read in a hurry
 \raggedright
 \raggedbottom
 
 % Keep a heading with its rule and the first lines of its content, so a
-% heading never strands at the foot of a page. needspace's trick, inlined so
-% this works on a minimal TeX install that has no needspace.sty.
+% heading never strands at the foot of a page.
+%
+% This measures the space actually left on the page (\pagegoal - \pagetotal)
+% and breaks only if there genuinely is not enough. The usual needspace
+% trick - insert stretchable glue, then a penalty - is WRONG here: this
+% document is \raggedbottom, so the page already carries infinitely
+% stretchable glue, the finite glue cannot compete, and the penalty fires as
+% an attractive break with two thirds of the page still empty.
+% The \ifdim\dimen@>\z@ guard covers \pagegoal being \maxdimen on a fresh page.
 \newcommand{\cvneedspace}[1]{%
+  \par
   \begingroup
-    \setlength{\dimen@}{#1}%
-    \vskip\z@\@plus\dimen@
-    \penalty-100%
-    \vskip\z@\@plus-\dimen@
+    \dimen@\pagegoal \advance\dimen@-\pagetotal
+    \ifdim #1>\dimen@ \ifdim\dimen@>\z@ \newpage \fi\fi
   \endgroup
 }
 
@@ -131,9 +137,9 @@
 %     \cvcontact{Email}{me@example.com}
 %     \cvcontact{GitHub}{\href{https://...}{github.com/...}}
 %   \end{cvcontacts}
-% Plain tabular, which — unlike tabularx — wraps in a \newenvironment fine.
+% Plain tabular, which - unlike tabularx - wraps in a \newenvironment fine.
 \newenvironment{cvcontacts}
-  {\footnotesize\renewcommand{\arraystretch}{1.2}%
+  {\footnotesize\renewcommand{\arraystretch}{1.1}%
    \begin{tabular}{@{}l@{\hspace{\cvcontactgap}}l@{}}}
   {\end{tabular}}
 \newcommand{\cvcontact}[2]{{\color{cvmuted}#1} & #2\\}
@@ -141,20 +147,20 @@
 % ---- sections ----
 \titleformat{\section}
   {\normalsize\bfseries\color{cvaccent}}{}{0pt}
-  {\cvneedspace{5\baselineskip}\MakeUppercase}
+  {\cvneedspace{6\baselineskip}\MakeUppercase}
   [\nobreak\vspace{-7pt}\color{cvrule}\rule{\linewidth}{0.6pt}\nobreak]
-\titlespacing*{\section}{0pt}{13pt}{6pt}
+\titlespacing*{\section}{0pt}{8pt}{4pt}
 
-% ---- \cvjob{role}{organisation}{dates}{location} — dates right-aligned ----
+% ---- \cvjob{role}{organisation}{dates}{location} - dates right-aligned ----
 % Pass {} for a field you do not have.
 %
 % tabular* with \extracolsep{\fill}, not tabularx: an X column is a paragraph
 % box whose first baseline \linespread shifts, which left the dates sitting
 % above the line they belong to. Plain l/r cells share a baseline exactly.
-% \hfill would not work here either — \raggedright makes \rightskip stretch,
+% \hfill would not work here either - \raggedright makes \rightskip stretch,
 % so the right-hand text would land mid-line instead of flush right.
 \newcommand{\cvjob}[4]{%
-  \vspace{4pt}%
+  \vspace{3pt}%
   \begingroup\renewcommand{\arraystretch}{0.94}%
   \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l r@{}}
     \textbf{#1} & {\small\color{cvmuted}#3}\\
@@ -178,7 +184,7 @@
 % A tabular with two p-columns, not an enumitem description list: with
 % description's multiline style, a label that wraps to two lines overflows
 % downward without growing the row, so the next label prints on top of it.
-% p-columns grow the row instead. Plain tabular — unlike tabularx — wraps in
+% p-columns grow the row instead. Plain tabular - unlike tabularx - wraps in
 % a \newenvironment without complaint.
 \newenvironment{cvskills}
   {\renewcommand{\arraystretch}{1.3}%

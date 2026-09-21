@@ -1,10 +1,10 @@
-# TeX Live toolchain for this repo — no root, no host install.
+# TeX Live toolchain for this repo - no root, no host install.
 #
 #   podman build -t cv-tex tools/
 #   podman run --rm -v "$PWD":/data:z -w /data --entrypoint bash cv-tex \
 #     -c 'bash .claude/skills/latex-cv/scripts/compile.sh output/cv.tex'
 #
-# The base image is pandoc's only because it is a small, current TeX Live —
+# The base image is pandoc's only because it is a small, current TeX Live -
 # this project does not use pandoc. Any TeX Live image works; swap it if you
 # prefer. Pin a digest or tag instead of :latest if you want reproducibility.
 #
