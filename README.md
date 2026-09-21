@@ -96,6 +96,9 @@ write me.md"** — the skill knows the format and will ask the questions.
 If your career is scattered across an old CV, a LinkedIn profile or a long chat
 history, paste this prompt into Claude anywhere that already has the context:
 
+<details>
+<summary><strong>Prompt: turn what you know about me into a <code>me.md</code></strong></summary>
+
 > Write everything you know about my career as a `me.md` profile file for a LaTeX CV
 > generator. Use exactly this structure — Markdown, `##` for sections, `###` for each
 > role or degree:
@@ -144,6 +147,8 @@ history, paste this prompt into Claude anywhere that already has the context:
 > `## Notes (not printed)` saying what you need from me — do not guess and do not
 > leave a placeholder in the CV body. Keep my own wording where it is good; tighten
 > bullets that ramble. Output the file contents only, no commentary.
+
+</details>
 
 Save the result as `me.md` and fill in whatever it flagged as missing.
 

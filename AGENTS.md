@@ -1,15 +1,17 @@
 # Working in this repo
 
-A CV generator. `me.md` (content) and `style/cv.sty` (appearance) are hand-written;
-`output/` is generated from them.
+A CV generator. `me.md` (content) and `style/cv.sty` (appearance) are hand-written,
+plus `me-<lang>.md` for any extra language and an optional `assets/photo.jpg`.
+Everything under `output/` is generated from them and git-ignored.
 
 ```
 me.md  ──►  output/cv.tex  ──(xelatex)──►  output/cv.pdf
 ```
 
 The CV-generation workflow and the LaTeX markup reference live in
-`.claude/skills/latex-cv/SKILL.md`. Read it before generating or editing a CV.
-This file covers working in the repo generally.
+`.claude/skills/latex-cv/SKILL.md` — read it before generating or editing a CV.
+Layout, setup and everyday usage are in `README.md`. This file is the part that is
+neither: the rules, and the ways this project fails silently.
 
 ## Build
 
@@ -17,13 +19,8 @@ This file covers working in the repo generally.
 bash .claude/skills/latex-cv/scripts/compile.sh output/cv.tex
 ```
 
-No TeX on the machine? `tools/Containerfile` has the toolchain:
-
-```bash
-podman build -t cv-tex tools/
-podman run --rm -v "$PWD":/data:z -w /data --entrypoint bash cv-tex \
-  -c 'bash .claude/skills/latex-cv/scripts/compile.sh output/cv.tex'
-```
+No TeX on the machine? `tools/Containerfile` has the toolchain; the README shows the
+two podman commands.
 
 Always rebuild after changing `me.md` or `style/cv.sty`, and check the reported page
 count. To see the result rather than assume it: `pdftoppm -r 100 -png output/cv.pdf out`
@@ -59,15 +56,3 @@ and look at the image.
   over-complicated and both are deliberate; `cv.sty` explains why at each. `tabularx`,
   `\hfill` and enumitem `description` were each tried and each failed differently.
   Read the comment before changing either.
-
-## Layout
-
-```
-me.md                     content — the source of truth
-me-<lang>.md              optional: one profile per extra language
-style/cv.sty              appearance — hand-edited, never regenerated
-assets/photo.jpg          optional profile picture
-output/                   generated, git-ignored
-tools/Containerfile       TeX toolchain
-.claude/skills/latex-cv/  SKILL.md (workflow + markup), scripts/compile.sh
-```
