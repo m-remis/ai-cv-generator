@@ -18,7 +18,7 @@ output/
 *~
 .DS_Store
 
-# Personal data - never committed. Your real profile and photo stay local.
-# The templates are tracked instead: me.example.md, assets/photo-placeholder.jpg
+# Personal data - never committed. Your real profile and photo stay local,
+# and the repo ships neither.
 me.md
 assets/photo.jpg

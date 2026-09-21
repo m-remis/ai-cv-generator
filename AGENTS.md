@@ -4,9 +4,9 @@ A CV generator. `me.md` (content) and `style/cv.sty` (appearance) are hand-writt
 language and an optional `assets/photo.jpg`. Everything under `output/` is generated
 from them and git-ignored.
 
-`me.md` and `assets/photo.jpg` are git-ignored too: they hold real personal data and
-must never be committed. The tracked stand-ins are `me.example.md` and
-`assets/photo-placeholder.jpg`.
+`me.md` and `assets/photo.jpg` are git-ignored: they hold real personal data and must
+never be committed. The repo ships neither, so a fresh clone has no profile until one
+is written.
 
 ```
 me.md  ──►  output/cv.tex  ──(xelatex)──►  output/cv.pdf
