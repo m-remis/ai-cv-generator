@@ -1,4 +1,4 @@
-# cv
+# CV Generator
 
 A CV built from a plain-text profile. You edit `me.md`; Claude generates the LaTeX and
 compiles it to a PDF.
