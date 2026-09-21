@@ -1,7 +1,12 @@
 # Working in this repo
 
 A CV generator. `me.md` (content) and `style/cv.sty` (appearance) are hand-written, plus `me-<lang>.md` for any extra
-language and an optional `assets/photo.jpg`. Everything under `output/` is generated from them and git-ignored.
+language and an optional `assets/photo.jpg`. Everything under `output/` is generated
+from them and git-ignored.
+
+`me.md` and `assets/photo.jpg` are git-ignored too: they hold real personal data and
+must never be committed. The tracked stand-ins are `me.example.md` and
+`assets/photo-placeholder.jpg`.
 
 ```
 me.md  ──►  output/cv.tex  ──(xelatex)──►  output/cv.pdf

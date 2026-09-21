@@ -107,7 +107,8 @@ right; if not, it centres the text. Nothing in
 `cv.tex` changes either way, so never add `\includegraphics` to it yourself. The filename and size are knobs in
 `style/cv.sty`.
 
-The repo ships a visibly marked placeholder. If it is still in place when building a CV the user intends to send, say
+The repo ships `assets/photo-placeholder.jpg`, visibly marked. If that is what is in
+place when building a CV the user intends to send, say
 so - do not let it ship silently.
 
 ## Multiple languages

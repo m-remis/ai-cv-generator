@@ -84,7 +84,8 @@ podman run --rm -v "$PWD":/data:z -w /data --entrypoint bash cv-tex \
 
 ### 2. Write your `me.md`
 
-The repo ships a mock `me.md` so the build works out of the box. Replace it with yours.
+The repo ships `me.example.md`, a mock profile. Copy it to `me.md` and replace the
+content with yours - `me.md` is git-ignored, so your real details never get committed.
 
 If you are in this repo already, the quickest route is to say **"interview me and write me.md"** - the skill knows the
 format and will ask the questions.
@@ -273,7 +274,9 @@ Changing the look means editing this one file. `cv.tex` never changes.
 Optional. Put a photo at `assets/photo.jpg` and the header becomes two-column - name and contacts on the left, photo on
 the right. Remove the file and the header re-centres. There is no switch to flip.
 
-The repo ships a placeholder marked **PLACEHOLDER**, so the layout is visible and a forgotten replacement is obvious.
+The repo ships `assets/photo-placeholder.jpg`, marked **PLACEHOLDER**. Copy it to
+`assets/photo.jpg` to see the layout, then replace it with yours - `assets/photo.jpg`
+is git-ignored, so your photo stays local.
 Swap it before sending the CV anywhere. A square image works best; it is scaled to width, not cropped. To change the
 size or use a different file (`.png` and `.pdf` work too):
 
@@ -308,7 +311,9 @@ every build, or your corrected wording would be overwritten each time.
 cv/
 ├── me.md                       # ← content. The file you edit.
 ├── style/cv.sty                # ← appearance. Yours; never regenerated.
-├── assets/photo.jpg            # ← optional profile picture
+├── me.example.md               # mock profile to copy from
+├── assets/photo.jpg            # ← optional profile picture (git-ignored)
+├── assets/photo-placeholder.jpg # tracked stand-in
 ├── output/                     # generated, git-ignored
 │   ├── cv.tex
 │   └── cv.pdf
