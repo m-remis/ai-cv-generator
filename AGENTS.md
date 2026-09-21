@@ -40,28 +40,25 @@ and look at the image.
 - **No identifying details in documentation.** README, AGENTS.md, SKILL.md, `cv.sty`
   and `tools/` use generic examples only — no real employer, name, city or URL. The
   owner's data belongs in `me.md` and `output/` alone.
+- **Both engines must keep working.** `compile.sh` falls back from xelatex to
+  pdflatex; that is only safe while `cv.sty` keeps a real `\ifPDFTeX` branch.
 - **Don't add a second copy of anything.** This repo had duplicated style files and
   duplicated docs; both were removed. Point at the canonical file instead.
 
 ## Gotchas, learned the hard way
 
-- **Unescaped `%` does not error.** It comments out the rest of the line, so text
-  silently disappears from the PDF. Escape `& % $ # _ { }` in everything taken from
-  `me.md`, and check the PDF for missing text.
-- **Load fonts by filename, not fontconfig name.** `\setmainfont{TeX Gyre Heros}`
-  falls back to `nullfont` on a bare TeX install and yields a blank PDF with no error.
-  `cv.sty` uses the `texgyreheros` + `Extension=.otf` form; keep it.
-- **Two-column entry lines use `tabular*`, not `tabularx` or `\hfill`.** An `X`
-  column is a paragraph box whose first baseline `\linespread` shifts, which put
-  dates a few points above the line they belonged to. `\hfill` fails differently:
-  `\raggedright` makes `\rightskip` stretchable, so right-hand text lands mid-line
-  instead of flush right. `tabularx` also cannot be wrapped in a `\newenvironment`
-  at all — it scans for its own `\end{tabularx}`.
-- **The profile photo is optional.** `\cvheader` branches on `IfFileExists`; there is
-  no flag. `assets/photo.jpg` currently holds a placeholder marked PLACEHOLDER — say
-  so if it is still in place when building a CV that will be sent.
-- **Both engines must keep working.** `compile.sh` falls back from xelatex to
-  pdflatex, which is only safe because `cv.sty` has a real `\ifPDFTeX` branch.
+- **Unescaped `%` does not error — it eats the rest of the line.** `40%` in a bullet
+  compiles cleanly, exit 0, and the PDF silently reads "…by 40". Nothing in this
+  repo catches it. Escape `& % $ # _ { }` in everything taken from `me.md`, and read
+  the built PDF for text that vanished.
+- **Do not "simplify" the font loading.** `cv.sty` loads `texgyreheros` by filename
+  with `Extension=.otf`. The obvious-looking `\setmainfont{TeX Gyre Heros}` resolves
+  by fontconfig name, which a bare TeX install does not have — the result is
+  `nullfont` and a blank PDF, again with no error.
+- **`\cvjob` uses `tabular*`, `cvskills` uses `tabular` p-columns.** Both look
+  over-complicated and both are deliberate; `cv.sty` explains why at each. `tabularx`,
+  `\hfill` and enumitem `description` were each tried and each failed differently.
+  Read the comment before changing either.
 
 ## Layout
 
