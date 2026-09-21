@@ -21,7 +21,8 @@ and the CV in step.
    write one in the format below. Never invent content.
 2. Write `output/cv.tex` from scratch using the markup below.
 3. Compile: `bash .claude/skills/latex-cv/scripts/compile.sh output/cv.tex`
-   It adds `style/` to TEXINPUTS, tries xelatex then pdflatex, prints the page count.
+   It puts `style/` and `assets/` on TEXINPUTS, tries xelatex then pdflatex, and
+   prints the page count.
 4. Report the page count and anything you cut or assumed.
 
 ## The markup
