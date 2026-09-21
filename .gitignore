@@ -1,0 +1,22 @@
+# Generated output — all of it rebuildable from me.md + style/cv.sty.
+# Tailored variants live in output/tailored/, so this covers them too.
+output/
+
+# LaTeX artefacts from a stray compile run outside output/.
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+
+# Editors and OS.
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+
+# me.md -> uncomment if you don't want to fucking doxx yourself
+# assets/photo.jpg -> same

@@ -1,0 +1,189 @@
+%% cv.sty — all styling for the CV.
+%%
+%% THIS FILE IS YOURS TO EDIT. It is never regenerated, so your styling
+%% survives every rebuild of cv.tex. Content lives in me.md; cv.tex is
+%% generated from it and holds no styling at all.
+%%
+%% Everything you are likely to want to change is in STYLE KNOBS below.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cv}[2026/09/21 v1 CV style]
+
+% Language, for hyphenation and typographic conventions. Passed as the package
+% option in cv.tex: \usepackage[slovak]{cv}, \usepackage[czech]{cv}, etc.
+% Defaults to english. Non-English languages need their babel patterns
+% installed (Fedora: texlive-lang-czechslovak, texlive-lang-european).
+% Options accumulate, so a language can be combined with babel switches, e.g.
+% \usepackage[czech,shorthands=off]{cv} — Czech babel makes " active, which
+% bites if a CV ever contains a literal quote character.
+\newcommand{\cv@lang}{}
+\DeclareOption*{%
+  \ifx\cv@lang\@empty
+    \edef\cv@lang{\CurrentOption}%
+  \else
+    \edef\cv@lang{\cv@lang,\CurrentOption}%
+  \fi}
+\ProcessOptions\relax
+\ifx\cv@lang\@empty\def\cv@lang{english}\fi
+
+% Engine-aware fonts: the same file works under xelatex and pdflatex.
+\RequirePackage{iftex}
+\ifPDFTeX
+  \RequirePackage[utf8]{inputenc}
+  \RequirePackage[T1]{fontenc}
+  \RequirePackage{tgheros}
+  \renewcommand{\familydefault}{\sfdefault}
+\else
+  \RequirePackage{fontspec}
+  % Loaded by filename via kpathsea, not by fontconfig name: the name form
+  % silently falls back to nullfont wherever TeX Live's fonts are not
+  % registered with fontconfig, which produces a blank PDF.
+  \setmainfont{texgyreheros}[
+    Extension      = .otf,
+    UprightFont    = *-regular,
+    BoldFont       = *-bold,
+    ItalicFont     = *-italic,
+    BoldItalicFont = *-bolditalic,
+    Ligatures      = TeX,
+  ]
+\fi
+
+\RequirePackage[\cv@lang]{babel}
+\RequirePackage{array}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{titlesec}
+\RequirePackage{microtype}
+\RequirePackage{hyperref}
+
+% =====================  STYLE KNOBS  =====================
+\definecolor{cvaccent}{HTML}{1F4E79}   % headings, links
+\definecolor{cvmuted}{HTML}{5C6670}    % dates, locations, contact line
+\definecolor{cvrule}{HTML}{C3CEDA}     % hairline under section headings
+\newcommand{\cvlabelwidth}{3.5cm}      % width of the Skills label column
+\newcommand{\cvnamesize}{22}           % name size in pt
+\newcommand{\cvphotofile}{photo.jpg}   % in assets/; the photo is optional
+\newcommand{\cvphotosize}{2.8cm}       % width of the photo
+\newcommand{\cvcontactgap}{0.9em}      % gap between contact label and value
+\RequirePackage[a4paper,margin=1.6cm,top=1.35cm,bottom=1.5cm,footskip=0.8cm]{geometry}
+% =========================================================
+
+\hypersetup{colorlinks=true, urlcolor=cvaccent, linkcolor=cvaccent, pdfborder={0 0 0}}
+
+% Page 1 is bare; every later page carries name and page number, because a
+% two-page CV gets printed, separated, and page 2 has to identify itself.
+\gdef\cv@name{}
+\def\ps@cvpages{%
+  \def\@oddhead{}\def\@evenhead{}%
+  \def\@oddfoot{%
+    \ifnum\value{page}>1
+      \hb@xt@\textwidth{\footnotesize\color{cvmuted}\cv@name\hfil\thepage}%
+    \fi}%
+  \let\@evenfoot\@oddfoot
+}
+\pagestyle{cvpages}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3.5pt}
+\linespread{1.04}\selectfont   % a little air; CV text is read in a hurry
+\raggedright
+\raggedbottom
+
+% Keep a heading with its rule and the first lines of its content, so a
+% heading never strands at the foot of a page. needspace's trick, inlined so
+% this works on a minimal TeX install that has no needspace.sty.
+\newcommand{\cvneedspace}[1]{%
+  \begingroup
+    \setlength{\dimen@}{#1}%
+    \vskip\z@\@plus\dimen@
+    \penalty-100%
+    \vskip\z@\@plus-\dimen@
+  \endgroup
+}
+
+% ---- \cvheader{name}{contact block} ----
+% With a photo in assets/ the header goes two-column, text left and photo
+% right. With no photo the text is centred instead. Nothing to switch on:
+% drop the file in or delete it.
+\newcommand{\cvheadertext}[2]{%
+  {\fontsize{\cvnamesize}{\cvnamesize}\selectfont\bfseries #1}\\[9pt]
+  #2%
+}
+\newcommand{\cvheader}[2]{%
+  \gdef\cv@name{#1}%
+  \IfFileExists{\cvphotofile}{%
+    \noindent
+    \begin{minipage}[c]{\dimexpr\linewidth-\cvphotosize-1.2em\relax}
+      \raggedright\cvheadertext{#1}{#2}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}[c]{\cvphotosize}
+      \includegraphics[width=\cvphotosize,height=\cvphotosize,keepaspectratio]{\cvphotofile}
+    \end{minipage}%
+    \par\vspace{4pt}%
+  }{%
+    \begin{center}\cvheadertext{#1}{#2}\end{center}
+    \vspace{2pt}%
+  }%
+}
+% ---- contact block: one item per line, labels aligned ----
+%   \begin{cvcontacts}
+%     \cvcontact{Email}{me@example.com}
+%     \cvcontact{GitHub}{\href{https://...}{github.com/...}}
+%   \end{cvcontacts}
+% Plain tabular, which — unlike tabularx — wraps in a \newenvironment fine.
+\newenvironment{cvcontacts}
+  {\footnotesize\renewcommand{\arraystretch}{1.2}%
+   \begin{tabular}{@{}l@{\hspace{\cvcontactgap}}l@{}}}
+  {\end{tabular}}
+\newcommand{\cvcontact}[2]{{\color{cvmuted}#1} & #2\\}
+
+% ---- sections ----
+\titleformat{\section}
+  {\normalsize\bfseries\color{cvaccent}}{}{0pt}
+  {\cvneedspace{5\baselineskip}\MakeUppercase}
+  [\nobreak\vspace{-7pt}\color{cvrule}\rule{\linewidth}{0.6pt}\nobreak]
+\titlespacing*{\section}{0pt}{13pt}{6pt}
+
+% ---- \cvjob{role}{organisation}{dates}{location} — dates right-aligned ----
+% Pass {} for a field you do not have.
+%
+% tabular* with \extracolsep{\fill}, not tabularx: an X column is a paragraph
+% box whose first baseline \linespread shifts, which left the dates sitting
+% above the line they belong to. Plain l/r cells share a baseline exactly.
+% \hfill would not work here either — \raggedright makes \rightskip stretch,
+% so the right-hand text would land mid-line instead of flush right.
+\newcommand{\cvjob}[4]{%
+  \vspace{4pt}%
+  \begingroup\renewcommand{\arraystretch}{0.94}%
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l r@{}}
+    \textbf{#1} & {\small\color{cvmuted}#3}\\
+    {\itshape\color{cvaccent}#2} & {\small\itshape\color{cvmuted}#4}
+  \end{tabular*}%
+  \endgroup
+  \vspace{2pt}%
+}
+
+% ---- bullets ----
+\setlist[itemize]{
+  leftmargin=1.1em, itemsep=3pt, topsep=4pt, parsep=0pt, partopsep=0pt,
+  label=\textcolor{cvaccent}{\scriptsize\raisebox{0.15ex}{\textbullet}}
+}
+
+% ---- \begin{cvskills} ... \end{cvskills}: aligned label/value block ----
+%   \begin{cvskills}
+%     Programming & Java, Kotlin \\
+%   \end{cvskills}
+%
+% A tabular with two p-columns, not an enumitem description list: with
+% description's multiline style, a label that wraps to two lines overflows
+% downward without growing the row, so the next label prints on top of it.
+% p-columns grow the row instead. Plain tabular — unlike tabularx — wraps in
+% a \newenvironment without complaint.
+\newenvironment{cvskills}
+  {\renewcommand{\arraystretch}{1.3}%
+   \begin{tabular}{@{}>{\raggedright\arraybackslash\bfseries}p{\cvlabelwidth}@{\hspace{0.7em}}%
+                     >{\raggedright\arraybackslash}p{\dimexpr\textwidth-\cvlabelwidth-0.7em\relax}@{}}}
+  {\end{tabular}}
+
+\endinput
