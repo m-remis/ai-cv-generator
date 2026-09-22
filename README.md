@@ -7,6 +7,26 @@ The point is that your CV has one source - a single readable file - and
 everything else is either generated from it or is pure styling. Change a job
 title in one place, rebuild, and the PDF is correct.
 
+<p align="center">
+  <img src="docs/example.png" alt="Example CV produced by this project" width="520">
+</p>
+
+<p align="center">
+  <em>Built from the bundled <code>me.example.md</code>, with nothing installed
+  but podman.</em>
+</p>
+
+## Quick start
+
+```bash
+git clone <this-repo> && cd cv
+cp me.example.md me.md          # then replace the content with your own
+claude                          # and say: build my CV
+```
+
+The first build takes about a minute while the toolchain image is built; after
+that, about a second. There is nothing else to install.
+
 ---
 
 ## The loop
@@ -114,24 +134,28 @@ That is the whole architecture - one rule and its consequence.
 
 ## Getting started
 
-### 1. Install TeX
+### 1. Nothing to install
+
+If you have `podman` or `docker`, you are done. The first build detects that
+there is no TeX on the machine, builds the toolchain image from
+`tools/Containerfile` and compiles inside it. That takes a couple of minutes
+once; every build after it takes about a second.
+
+If you already have a TeX installation with `xelatex`, it is used directly and
+no container is involved.
+
+Only if you have neither will a build stop and ask you to install one of them.
+
+Nothing keeps running afterwards: each build starts a container, compiles, and
+removes it. What stays is the image itself, about 650 MB, which is what makes
+later builds take a second instead of a minute. To reclaim the space when you
+are done:
 
 ```bash
-sudo dnf install texlive-scheme-medium texlive-xetex     # Fedora
-sudo apt install texlive-xetex texlive-fonts-recommended  # Debian/Ubuntu
+podman rmi cv-tex:latest        # or: docker rmi cv-tex:latest
 ```
 
-Nothing is installed into your TeX tree - `compile.sh` puts `style/` and
-`assets/` on `TEXINPUTS` at build time.
-
-**Or skip the install.** `tools/Containerfile` has the toolchain this project
-was verified on:
-
-```bash
-podman build -t cv-tex tools/
-podman run --rm -v "$PWD":/data:z -w /data --entrypoint bash cv-tex \
-  -c 'bash .claude/skills/latex-cv/scripts/compile.sh output/cv.tex'
-```
+The next build simply rebuilds it.
 
 ### 2. Write your `me.md`
 

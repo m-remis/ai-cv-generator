@@ -1,14 +1,21 @@
 # TeX Live toolchain for this repo - no root, no host install.
 #
-#   podman build -t cv-tex tools/
-#   podman run --rm -v "$PWD":/data:z -w /data --entrypoint bash cv-tex \
-#     -c 'bash .claude/skills/latex-cv/scripts/compile.sh output/cv.tex'
+# You do not need to build this by hand. compile.sh builds it automatically
+# the first time it runs, if there is no local TeX installation.
 #
 # The base image is pandoc's only because it is a small, current TeX Live -
-# this project does not use pandoc. Any TeX Live image works; swap it if you
-# prefer. Pin a digest or tag instead of :latest if you want reproducibility.
+# this project does not use pandoc. Pin a digest instead of :latest if you
+# want reproducibility.
 #
-# tex-gyre supplies the Heros font cv.sty loads; titlesec and enumitem drive
-# the headings and lists; bash runs the script (the image ships BusyBox sh).
+# What each package is for:
+#   tex-gyre            the Heros font cv.sty loads
+#   titlesec, enumitem  section headings and list spacing
+#   extsizes            the 9pt extarticle class cv.tex uses
+#   babel/hyphen cs+sk  hyphenation for me-cs.md and me-sk.md; without them a
+#                       non-English CV is silently hyphenated with English rules
+#   bash                runs compile.sh (the image ships only BusyBox sh)
 FROM docker.io/pandoc/latex:latest
-RUN tlmgr install tex-gyre titlesec enumitem && apk add --no-cache bash
+RUN tlmgr install \
+      tex-gyre titlesec enumitem extsizes \
+      babel-czech hyphen-czech babel-slovak hyphen-slovak \
+ && apk add --no-cache bash

@@ -21,4 +21,6 @@ output/
 # Personal data - never committed. Your real profile and photo stay local,
 # and the repo ships neither.
 me.md
+me-*.md
 assets/photo.jpg
+private/
