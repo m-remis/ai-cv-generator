@@ -10,7 +10,8 @@
 # What each package is for:
 #   tex-gyre            the Heros font cv.sty loads
 #   titlesec, enumitem  section headings and list spacing
-#   extsizes            the 9pt extarticle class cv.tex uses
+#   extsizes            the 9pt extarticle class, used only when a CV is
+#                       squeezed below the default 10pt
 #   babel/hyphen cs+sk  hyphenation for me-cs.md and me-sk.md; without them a
 #                       non-English CV is silently hyphenated with English rules
 #   bash                runs compile.sh (the image ships only BusyBox sh)

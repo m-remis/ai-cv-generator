@@ -6,7 +6,8 @@ description: Judge and improve CV/resume content - bullet wording, what to inclu
 # CV content review
 
 This skill is about **what the CV says**. `latex-cv` is about turning `me.md`
-into a PDF; use that for anything mechanical.
+into a PDF; use that for anything mechanical. `cv-design` is about how the page
+looks; use that for layout, spacing, colour and page balance.
 
 Never invent content to satisfy any rule here. If a bullet has no number because
 the user never gave one, it stays without a number.

@@ -13,9 +13,11 @@ until one is written.
 me.md  ──►  output/cv.tex  ──(xelatex)──►  output/cv.pdf
 ```
 
-Two skills split the work: `.claude/skills/latex-cv/` is the mechanics - `me.md`
-to LaTeX to PDF, markup, escaping, compiling - and `.claude/skills/cv-review/`
-is the judgment about what the CV actually says. Read the relevant one before
+Three skills split the work: `.claude/skills/latex-cv/` is the mechanics -
+`me.md` to LaTeX to PDF, markup, escaping, compiling - `.claude/skills/cv-review/`
+is the judgment about what the CV actually says, and `.claude/skills/cv-design/`
+is the judgment about how the page looks: hierarchy, spacing, colour, page
+balance, what a skim catches. Read the relevant one before
 starting. Layout, setup and everyday usage are in `README.md`. This file is the
 part that is neither: the rules, and the ways this project fails silently.
 
@@ -34,7 +36,8 @@ that persists, and `podman rmi cv-tex:latest` removes it.
 
 Always rebuild after changing `me.md` or `style/cv.sty`, and check the reported
 page count. To see the result rather than assume it: `pdftoppm -r 100 -png
-output/cv.pdf out` and look at the image.
+output/cv.pdf out` and look at the image. The `cv-design` skill has the fuller
+method - squint and greyscale renders, and what each one is for.
 
 ## Rules
 

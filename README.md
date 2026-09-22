@@ -8,12 +8,13 @@ everything else is either generated from it or is pure styling. Change a job
 title in one place, rebuild, and the PDF is correct.
 
 <p align="center">
-  <img src="docs/example.png" alt="Example CV produced by this project" width="520">
+  <img src="docs/example-1.png" alt="Example CV, page one" width="380">
+  <img src="docs/example-2.png" alt="Example CV, page two" width="380">
 </p>
 
 <p align="center">
-  <em>Built from the bundled <code>me.example.md</code>, with nothing installed
-  but podman.</em>
+  <em>Both pages of the CV built from the bundled <code>me.example.md</code>,
+  with nothing installed but podman.</em>
 </p>
 
 ## Quick start
@@ -289,6 +290,7 @@ out, how to explain a gap. It is read when tailoring to a job ad.
 | "Build my CV"                                  | `output/cv.tex` + `output/cv.pdf`           |
 | "I updated me.md, regenerate"                  | both rewritten from scratch                 |
 | "Make the accent green"                        | a one-line edit in `style/cv.sty`           |
+| "Make it prettier" / "it looks like a template" | a design review, then edits to `cv.sty`    |
 | "Make it one page"                             | a shorter CV, plus a report of what was cut |
 | "Tailor it to this job ad: …"                  | `output/tailored/<company>-<role>/`         |
 | "Review my CV" / "are these bullets any good?" | a critique with concrete rewrites           |
@@ -307,7 +309,7 @@ Below the knobs it defines the building blocks the generated `cv.tex` uses:
 
 | command                     | what it is                                                |
 |-----------------------------|-----------------------------------------------------------|
-| `\cvheader`                 | name plus the contact block                               |
+| `\cvheader`                 | name, the contact block, and an optional role line        |
 | `cvcontacts` / `\cvcontact` | one contact per line, labels aligned                      |
 | `\cvjob`                    | role, organisation, dates, location - dates right-aligned |
 | `cvskills`                  | aligned label/value block, used for Skills and Languages  |
@@ -320,8 +322,9 @@ Optional. Put a photo at `assets/photo.jpg` and the header becomes two-column -
 name and contacts on the left, photo on the right. Remove the file and the
 header re-centres. There is no switch to flip.
 
-`assets/photo-placeholder.jpg` is an example image marked **PLACEHOLDER**. Copy
-it to `assets/photo.jpg` to see the layout, then swap in your own:
+`assets/photo-placeholder.jpg` is a stand-in, and it is a duck, so that nobody
+ships it by accident. Copy it to `assets/photo.jpg` to see the layout, then swap
+in your own:
 
 ```bash
 cp assets/photo-placeholder.jpg assets/photo.jpg
@@ -367,7 +370,7 @@ cv/
 ├── me.example.md               # example profile to copy from
 ├── style/cv.sty                # <- appearance. Yours; never regenerated.
 ├── assets/photo.jpg            # <- optional profile picture
-├── assets/photo-placeholder.jpg # example image
+├── assets/photo-placeholder.jpg # stand-in image (a duck)
 ├── output/                     # generated
 │   ├── cv.tex
 │   └── cv.pdf
@@ -376,7 +379,8 @@ cv/
 ├── CLAUDE.md                   # points Claude Code at AGENTS.md
 └── .claude/skills/
     ├── latex-cv/               # SKILL.md (workflow + markup), scripts/compile.sh
-    └── cv-review/              # SKILL.md (judging the content)
+    ├── cv-review/              # SKILL.md (judging the content)
+    └── cv-design/              # SKILL.md (judging the layout and look)
 ```
 
 ---
@@ -392,9 +396,10 @@ cv/
 - **Tailors by reordering** real experience, and tells you which of an ad's
   requirements you do not meet rather than papering over them.
 
-Two skills split the work: `latex-cv` builds the document, `cv-review` judges
+Three skills split the work: `latex-cv` builds the document, `cv-review` judges
 the content - bullet wording, what to leave out, length norms, matching a job
-ad.
+ad - and `cv-design` judges the page: visual hierarchy, spacing, colour, page
+balance, and whether a three-second skim lands on the right things.
 
 Full workflow and markup reference: `.claude/skills/latex-cv/SKILL.md`. Repo
 conventions and the failure modes worth knowing: `AGENTS.md`.

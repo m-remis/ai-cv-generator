@@ -35,7 +35,7 @@ the profile and the CV in step.
 \usepackage{cv}
 \begin{document}
 
-    \cvheader{Name}{%
+    \cvheader[Role]{Name}{%
         \begin{cvcontacts}
             \cvcontact{Location}{City, Country}
             \cvcontact{Email}{\href{mailto:...}{...}}
@@ -65,6 +65,11 @@ the profile and the CV in step.
 \end{document}
 ```
 
+`\cvheader`'s optional first argument is a role line, set under the name in the
+accent colour. It is off by default - `\cvheader{Name}{...}` - and belongs to
+the owner of the profile, not to the generator: some people want the header to
+be a name and nothing else. Add it only when asked for.
+
 `\cvjob` right-aligns the dates and location. Pass `{}` for a field you do not
 have. `cvskills` is the aligned label/value block - use it for Skills,
 Languages, or any section of that shape. Escape `&` inside a cell as `\&`.
@@ -85,10 +90,9 @@ Markdown with `##` headings. `# Name` is the H1; `## Contact`, `## Summary`, `##
 Experience`, `## Education`, `## Skills` map to the obvious places, and any
 other `##` heading becomes its own `\section` where it sits in the file.
 
-`## Title` is **not rendered** in the current style - the header is the name and
-the contact block only. Keep it in `me.md` (it is useful context when
-tailoring); just do not emit it. To put it back, add a `\cvcontact{Role}{...}`
-row to the contact block.
+`## Title` becomes the role line: pass it as `\cvheader`'s optional argument.
+It is also the first thing to reword when tailoring to an ad, so keep it in
+`me.md` even if a variant does not print it.
 
 Inside an entry:
 
@@ -162,6 +166,10 @@ it would discard hand-corrected wording.
 Appearance changes go in `style/cv.sty` and must not touch `cv.tex`. Colour,
 margins, name size and the skills label width are in the `STYLE KNOBS` block at
 the top.
+
+That is where a restyle is applied. For judgment about *what to change* - visual
+hierarchy, spacing, colour, page balance, whether a skim lands on the right
+things - use the `cv-design` skill.
 
 ## Content quality
 

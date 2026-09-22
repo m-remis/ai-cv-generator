@@ -60,25 +60,42 @@
 % =====================  STYLE KNOBS  =====================
 \definecolor{cvaccent}{HTML}{1F4E79}   % headings, links
 \definecolor{cvmuted}{HTML}{5C6670}    % dates, locations, contact line
-\definecolor{cvrule}{HTML}{C3CEDA}     % hairline under section headings
+\definecolor{cvrule}{HTML}{9FB2C6}     % hairline under section headings
 \newcommand{\cvlabelwidth}{4.3cm}      % width of the Skills label column
 \newcommand{\cvnamesize}{22}           % name size in pt
+\newcommand{\cvrolesize}{11.5}         % role line under the name, in pt
 \newcommand{\cvphotofile}{photo.jpg}   % in assets/; the photo is optional
 \newcommand{\cvphotosize}{2.8cm}       % width of the photo
 \newcommand{\cvcontactgap}{0.9em}      % gap between contact label and value
-\RequirePackage[a4paper,margin=1.5cm,top=1.2cm,bottom=1.3cm,footskip=0.7cm]{geometry}
+\RequirePackage[a4paper,margin=1.8cm,top=1.2cm,bottom=1.3cm,footskip=0.7cm]{geometry}
 % =========================================================
+
+% Is an argument empty? Used by \cvheader for the optional role line and by
+% \cvjob to drop a row it has nothing to put in. \detokenize is e-TeX, so this
+% works under both xelatex and pdflatex.
+\newcommand{\cv@ifblank}[3]{\if\relax\detokenize{#1}\relax#2\else#3\fi}
 
 \hypersetup{colorlinks=true, urlcolor=cvaccent, linkcolor=cvaccent, pdfborder={0 0 0}}
 
 % Page 1 is bare; every later page carries name and page number, because a
 % two-page CV gets printed, separated, and page 2 has to identify itself.
+%
+% "2 of 2", not "2": the reader's question is whether they are holding all of
+% it, and a bare folio does not answer that. The total comes from a label set
+% at the end of the document rather than the lastpage package, which is not in
+% every TeX installation; compile.sh already runs two passes, which is what a
+% forward reference needs. The label goes before the final \clearpage, not
+% after it: \label writes through a whatsit carried on the current page, and a
+% page that has already been flushed never ships it, so the reference silently
+% stays "??".
 \gdef\cv@name{}
+\AtEndDocument{\label{cv@lastpage}}
 \def\ps@cvpages{%
   \def\@oddhead{}\def\@evenhead{}%
   \def\@oddfoot{%
     \ifnum\value{page}>1
-      \hb@xt@\textwidth{\footnotesize\color{cvmuted}\cv@name\hfil\thepage}%
+      \hb@xt@\textwidth{\footnotesize\color{cvmuted}\cv@name\hfil
+        \thepage\ of \pageref{cv@lastpage}}%
     \fi}%
   \let\@evenfoot\@oddfoot
 }
@@ -107,20 +124,26 @@
   \endgroup
 }
 
-% ---- \cvheader{name}{contact block} ----
+% ---- \cvheader[role]{name}{contact block} ----
 % With a photo in assets/ the header goes two-column, text left and photo
 % right. With no photo the text is centred instead. Nothing to switch on:
 % drop the file in or delete it.
-\newcommand{\cvheadertext}[2]{%
-  {\fontsize{\cvnamesize}{\cvnamesize}\selectfont\bfseries #1}\\[9pt]
-  #2%
+%
+% The optional role line sits under the name in the accent colour, so the top
+% of the page and the section bands read as one system. It is off unless asked
+% for: a bare name is a legitimate choice, and this is the profile owner's call.
+\newcommand{\cvheadertext}[3]{%
+  {\fontsize{\cvnamesize}{\cvnamesize}\selectfont\bfseries #1}%
+  \cv@ifblank{#2}{\\[9pt]}%
+    {\\[3pt]{\fontsize{\cvrolesize}{\cvrolesize}\selectfont\bfseries\color{cvaccent}#2}\\[8pt]}%
+  #3%
 }
-\newcommand{\cvheader}[2]{%
-  \gdef\cv@name{#1}%
+\newcommand{\cvheader}[3][]{%
+  \gdef\cv@name{#2}%
   \IfFileExists{\cvphotofile}{%
     \noindent
     \begin{minipage}[c]{\dimexpr\linewidth-\cvphotosize-1.2em\relax}
-      \raggedright\cvheadertext{#1}{#2}
+      \raggedright\cvheadertext{#2}{#1}{#3}
     \end{minipage}%
     \hfill
     \begin{minipage}[c]{\cvphotosize}
@@ -128,7 +151,7 @@
     \end{minipage}%
     \par\vspace{4pt}%
   }{%
-    \begin{center}\cvheadertext{#1}{#2}\end{center}
+    \begin{center}\cvheadertext{#2}{#1}{#3}\end{center}
     \vspace{2pt}%
   }%
 }
@@ -148,7 +171,7 @@
 \titleformat{\section}
   {\normalsize\bfseries\color{cvaccent}}{}{0pt}
   {\cvneedspace{6\baselineskip}\MakeUppercase}
-  [\nobreak\vspace{-7pt}\color{cvrule}\rule{\linewidth}{0.6pt}\nobreak]
+  [\nobreak\vspace{-7pt}\color{cvrule}\rule{\linewidth}{0.9pt}\nobreak]
 \titlespacing*{\section}{0pt}{8pt}{4pt}
 
 % ---- \cvjob{role}{organisation}{dates}{location} - dates right-aligned ----
@@ -159,13 +182,29 @@
 % above the line they belong to. Plain l/r cells share a baseline exactly.
 % \hfill would not work here either - \raggedright makes \rightskip stretch,
 % so the right-hand text would land mid-line instead of flush right.
-\newcommand{\cvjob}[4]{%
-  \vspace{3pt}%
-  \begingroup\renewcommand{\arraystretch}{0.94}%
+%
+% An entry with neither organisation nor location - a project under Selected
+% Work, say - gets a one-row table. Typesetting the second row empty costs a
+% full blank line between the title and its bullets. The two shapes are two
+% separate tabulars rather than an \if inside one: a & or \\ arriving from
+% macro expansion mid-alignment is exactly the kind of thing that works until
+% it does not.
+\newcommand{\cv@jobrow}[2]{%
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l r@{}}
+    \textbf{#1} & {\small\color{cvmuted}#2}
+  \end{tabular*}%
+}
+\newcommand{\cv@jobrows}[4]{%
   \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}l r@{}}
     \textbf{#1} & {\small\color{cvmuted}#3}\\
     {\itshape\color{cvaccent}#2} & {\small\itshape\color{cvmuted}#4}
   \end{tabular*}%
+}
+\newcommand{\cvjob}[4]{%
+  \vspace{3pt}%
+  \begingroup\renewcommand{\arraystretch}{0.94}%
+  \cv@ifblank{#2}{\cv@ifblank{#4}{\cv@jobrow{#1}{#3}}{\cv@jobrows{#1}{#2}{#3}{#4}}}%
+                 {\cv@jobrows{#1}{#2}{#3}{#4}}%
   \endgroup
   \vspace{2pt}%
 }

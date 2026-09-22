@@ -22,5 +22,5 @@ output/
 # and the repo ships neither.
 me.md
 me-*.md
-assets/photo.jpg
+assets/photo.*
 private/

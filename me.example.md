@@ -1,84 +1,89 @@
-# Alex Carter
+# Quack Duckson
 <!--
-Source of truth for the CV. Mock data — replace with your own.
+Source of truth for the CV. Mock data - replace with your own.
 Gaps and reminders live in the private notes at the bottom.
 -->
 
 ## Title
-Senior Backend Engineer
+Senior Pond Infrastructure Engineer
 
 ## Contact
-- Email: alex.carter@example.com
+- Email: quack@example.com
 - Phone: +00 000 000 000
-- Location: Anytown, Country
+- Location: Anypond, Countryside
 - Website: https://example.com
 - LinkedIn: https://linkedin.com/in/example
 - GitHub: https://github.com/example
 
 ## Summary
-Senior backend engineer with 8 years of commercial experience designing, building and
-operating production systems in Java and Spring Boot. Owns services end to end — from
-domain modelling and API contracts through persistence, security, messaging, testing
-and production debugging. Comfortable with high-traffic systems, cloud-native AWS
-environments, identity and access management, and the reliability concerns of
-long-lived backend platforms.
+Senior waterfowl engineer with 8 seasons of experience designing, building and
+operating high-traffic pond systems. Owns migrations end to end, from formation
+planning and V-shape optimisation through landing, nesting and post-arrival
+support. Comfortable with large flocks, seasonal load spikes and the reliability
+concerns of long-lived wetland platforms.
 
 ## Experience
 
-### Senior Backend Engineer — Example Payments
+### Senior Pond Infrastructure Engineer - Example Waterfowl
 - Dates: 2019-09 – present
-- Location: Anytown, Country
-- Progressed from mid-level to senior while delivering backend systems for several international clients.
-- Took technical ownership of the Java/Spring services behind a platform serving roughly five million users, covering design, implementation, testing and production support.
-- Rebuilt the settlement pipeline: p99 latency 2.4 s → 180 ms, on 40% fewer nodes.
-- Built authentication and identity workflows with OAuth 2.0, OIDC/SAML federation, JWT/JWKS and Spring Security, including MFA, account linking and token revocation.
-- Introduced contract tests and Testcontainers-based integration suites; integration failures in CI fell by about half.
-- Led a team of four through the migration off the monolith, with a zero-downtime cutover.
+- Location: Anypond, Countryside
+- Progressed from duckling to senior while delivering migration systems for several international flocks.
+- Took technical ownership of the formation scheduler behind a route carrying roughly five million birds, covering design, implementation, testing and in-flight support.
+- Rebuilt the landing pipeline: approach latency from 2.4 s to 180 ms, on 40% fewer wingbeats.
+- Introduced bread-based rate limiting after an incident in which the entire flock converged on one park bench.
+- Cut on-call wake-ups by about half by tuning honk thresholds so only real predators page the flock.
+- Mentored four ducklings through their first migration, with a zero-loss cutover.
 
-### Backend Engineer — Example Systems
+### Career break - raising offspring
+- Dates: 2021-03 – 2021-11
+- Location: Anypond, Countryside
+- Full-time nest operations: twelve eggs hatched, twelve fledged, zero data loss.
+- Kept current with occasional pond maintenance and a weekly reading group.
+
+### Junior Waterfowl Engineer - Example Migrations
 - Dates: 2017-06 – 2019-08
-- Location: Anytown, Country
-- Built the public REST API now serving roughly 2M requests/day.
-- Owned on-call for three services and wrote the runbooks the team still uses.
+- Location: Anypond, Countryside
+- Built the public breadcrumb API now serving roughly 2M requests/day.
+- Owned on-call for three ponds and wrote the runbooks the flock still uses.
 
 ## Selected work
 
-### Device integration platform
-- Designed backend handling for device identity, ownership, software releases and status synchronisation, routing device messages through an API gateway and a Lambda authorizer into backend messaging services.
+### Flock formation scheduler
+- Assigns positions dynamically so no single bird carries the draft for a whole leg, with leader failover mid-flight.
 
-### Legacy data integration
-- Built a read-only integration layer exposing APIs over a legacy operational database, isolating JDBC access and giving downstream services controlled consumption.
+### Goosing-around detector
+- Flags unproductive circling of the same pond, a leading indicator of a flock burning energy without covering distance.
 
-### Identity platform
-- Implemented and debugged bulk identity lifecycle operations: administration, password setup, email changes and linking or unlinking federated identities.
+### Crumb distribution service
+- Multi-pond and event-driven, with per-park bread quotas and fair queueing so the smallest ducklings still get fed.
 
 ## Skills
-- Programming: Java 8/11/17/21, SQL; working knowledge of Python and TypeScript
-- Backend: Spring Boot, Spring MVC, Spring Security, Spring Data JPA, Hibernate, REST APIs, microservices, Resilience4j
-- Data: PostgreSQL, Oracle, Redis, Elasticsearch/OpenSearch, Flyway, JDBC
-- Messaging: Apache Kafka, event-driven integrations
-- Cloud & identity: AWS Lambda, API Gateway, S3, ECR, CloudWatch, RDS, IAM, OAuth 2.0, OIDC, SAML, JWT/JWKS
-- Delivery: Docker, Kubernetes, AWS EKS, Helm, CloudFormation, Maven, Gradle, Git, CI/CD
-- Quality & operations: JUnit, Mockito, Testcontainers, integration testing, Micrometer, Actuator, observability
-- Architecture: Service design, API contracts, domain modelling, distributed systems, reliability, maintainability
+- Flight: Formation flying, thermal soaring, long-haul migration, emergency water landings
+- Water: Dabbling, diving, preening, buoyancy tuning
+- Communication: Honking, quacking, aggressive hissing at dogs
+- Operations: Nest building, predator evasion, seasonal capacity planning
+- Tooling: Breadcrumbs, reeds, one very determined attitude
 
 ## Languages
-- English: C1
-- German: B1
-- Spanish: A2
+- Quack: native
+- Honk: C1
+- Human: A2, receptive only
 
 ## Education
 
-### Ing. (Engineer's degree, MSc equivalent) — Example University of Technology
+### Ing. (Engineer's degree, MSc equivalent) - Example University of Ponds
 - Dates: 2015 – 2017
-- Location: Anytown, Country
-- Faculty: Management Science and Informatics
+- Location: Anypond, Countryside
+- Faculty: Migration Science and Hydrodynamics
 
 ## Notes (not printed)
 <!--
-Private. Never appears in any output — context for tailoring only.
+Private. Never appears in any output - context for tailoring only.
 -->
-- This file is mock data. Replace every section with real content before building a
-  CV you intend to send, and swap assets/photo.jpg for a real photo.
-- Target roles: staff/principal backend, platform teams.
-- Not interested in: on-call-heavy roles.
+- This file is mock data, and a duck, so that nobody sends it by accident. Replace
+  every section with real content before building a CV you intend to send, and swap
+  assets/photo.jpg for a real photo.
+- The career break above is deliberate. It shows how to carry one on a CV without
+  apologising for it: dates, one line on what it was, one on what you kept up.
+- Target roles: staff or principal pond, platform flocks.
+- Not interested in: anything with heavy dog exposure.
